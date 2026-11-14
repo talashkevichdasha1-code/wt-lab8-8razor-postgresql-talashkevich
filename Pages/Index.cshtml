@@ -1,0 +1,159 @@
+
+@page
+@model wt_lab8_8razor_postgresql_talashkevich.Pages.Members.IndexModel
+
+@{
+    ViewData["Title"] = "Участники клуба";
+}
+
+<section class="members-page">
+    <div class="site-container">
+
+        <div class="members-page-heading">
+            <div>
+                <p class="eyebrow">
+                    <span class="eyebrow-line"></span>
+                    НАША КОМАНДА
+                </p>
+
+                <h1>УЧАСТНИКИ</h1>
+
+                <p class="members-subtitle">
+                    Наша команда активных и целеустремлённых людей.
+                </p>
+            </div>
+
+            <div class="members-heading-actions">
+                <span class="count-pill">
+                    Всего: @Model.TotalMembers
+                </span>
+
+                <a asp-page="./Create" class="btn btn-lime">
+                    + Добавить участника
+                </a>
+            </div>
+        </div>
+
+        <form method="get" class="members-search-form">
+            <input type="text"
+                   name="Search"
+                   value="@Model.Search"
+                   placeholder="Введите имя участника..."
+                   class="members-search-input" />
+
+            <button type="submit" class="btn btn-lime">
+                Найти
+            </button>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Search))
+            {
+                <a asp-page="./Index" class="btn btn-outline-light-custom">
+                    Сбросить
+                </a>
+            }
+        </form>
+
+        @if (Model.Members.Count == 0)
+        {
+            <div class="empty-members">
+                @if (!string.IsNullOrWhiteSpace(Model.Search))
+                {
+                    <h2>Участники не найдены</h2>
+                    <p>По запросу «@Model.Search» ничего не найдено.</p>
+                }
+                else
+                {
+                    <h2>Пока нет участников</h2>
+                    <p>Добавь первого участника клуба.</p>
+                    <a asp-page="./Create" class="btn btn-lime">
+                        Добавить участника
+                    </a>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="members-grid">
+                @foreach (var member in Model.Members)
+                {
+                    var plan = Model.MembershipPlans
+                        .FirstOrDefault(p => p.Id == member.MembershipPlanId);
+
+                    var trainer = Model.Trainers
+                        .FirstOrDefault(t => t.Id == member.TrainerId);
+
+                    <article class="member-card">
+
+                        <div class="member-card-heading">
+                            <div class="member-avatar member-avatar-large">
+                                @member.Name.Substring(0, 1).ToUpperInvariant()
+                            </div>
+
+                            <div class="member-card-name">
+                                <h2>@member.Name.ToUpperInvariant()</h2>
+                                <p>Участник № @member.Id</p>
+                            </div>
+                        </div>
+
+                        <div class="member-card-info">
+                            <div class="member-info-row">
+                                <span>Возраст</span>
+                                <strong>@member.Age</strong>
+                            </div>
+
+                            <div class="member-info-row">
+                                <span>Абонемент</span>
+                                <strong>@(plan?.Name ?? "Не указан")</strong>
+                            </div>
+
+                            <div class="member-info-row">
+                                <span>Тренер</span>
+                                <strong>@(trainer?.Name ?? "Не назначен")</strong>
+                            </div>
+
+                            <div class="member-info-row">
+                                <span>Специализация</span>
+                                <strong>@(trainer?.Specialization ?? "—")</strong>
+                            </div>
+                        </div>
+
+                        <div class="member-card-status">
+                            @if (member.IsActive)
+                            {
+                                <span class="status-pill status-active">
+                                    АКТИВЕН
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="status-pill status-inactive">
+                                    НЕАКТИВЕН
+                                </span>
+                            }
+                        </div>
+
+                        <div class="member-card-actions">
+                            <a asp-page="./Details"
+                               asp-route-id="@member.Id"
+                               class="member-action-btn">
+                                Подробнее
+                            </a>
+
+                            <form method="post"
+                                  asp-page-handler="Delete"
+                                  asp-route-id="@member.Id"
+                                  onsubmit="return confirm('Удалить участника?');">
+                                <button type="submit"
+                                        class="member-action-btn member-delete-btn">
+                                    Удалить
+                                </button>
+                            </form>
+                        </div>
+
+                    </article>
+                }
+            </div>
+        }
+
+    </div>
+</section>

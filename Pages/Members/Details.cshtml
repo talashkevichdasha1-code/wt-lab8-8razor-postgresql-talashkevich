@@ -1,0 +1,237 @@
+
+@page "{id:int}"
+@model wt_lab8_8razor_postgresql_talashkevich.Pages.Members.DetailsModel
+
+@{
+    ViewData["Title"] = "Карточка участника";
+}
+
+<section class="details-page">
+    <div class="site-container">
+
+        <div class="details-top">
+            <div>
+                <p class="eyebrow">
+                    <span class="eyebrow-line"></span>
+                    ПРОФИЛЬ УЧАСТНИКА
+                </p>
+
+                <h1>КАРТОЧКА <span>УЧАСТНИКА</span></h1>
+
+                <p class="details-subtitle">
+                    Информация об участнике FITNESS CLUB
+                </p>
+            </div>
+
+            <a asp-page="./Index" class="btn btn-outline-light-custom">
+                ← К участникам
+            </a>
+        </div>
+
+        @if (Model.Member is not null)
+        {
+            <div class="details-layout">
+
+                <article class="details-profile-card">
+                    <div class="details-profile-top">
+                        <div class="details-avatar">
+                            @Model.Member.Name.Substring(0, 1).ToUpperInvariant()
+                        </div>
+
+                        <div class="details-profile-name">
+                            <span class="details-overline">
+                                УЧАСТНИК № @Model.Member.Id
+                            </span>
+
+                            <h2>@Model.Member.Name.ToUpperInvariant()</h2>
+
+                            @if (Model.Member.IsActive)
+                            {
+                                <span class="status-pill status-active">
+                                    ● АКТИВНЫЙ АБОНЕМЕНТ
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="status-pill status-inactive">
+                                    ● НЕАКТИВНЫЙ АБОНЕМЕНТ
+                                </span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="details-divider"></div>
+
+                    <div class="details-section-heading">
+                        <span class="details-section-number">01</span>
+                        <h3>ЛИЧНЫЕ ДАННЫЕ</h3>
+                    </div>
+
+                    <div class="details-info-grid">
+                        <div class="details-info-item">
+                            <span>Имя участника</span>
+                            <strong>@Model.Member.Name</strong>
+                        </div>
+
+                        <div class="details-info-item">
+                            <span>Возраст</span>
+                            <strong>@Model.Member.Age лет</strong>
+                        </div>
+
+                        <div class="details-info-item">
+                            <span>Идентификатор</span>
+                            <strong>#@Model.Member.Id</strong>
+                        </div>
+
+                        <div class="details-info-item">
+                            <span>Статус</span>
+                            <strong>
+                                @(Model.Member.IsActive ? "Активен" : "Неактивен")
+                            </strong>
+                        </div>
+
+                        <div class="details-info-item">
+                            <span>Описание</span>
+                            <strong>
+                                @(string.IsNullOrWhiteSpace(Model.Member.Description)
+                                    ? "Не указано"
+                                    : Model.Member.Description)
+                            </strong>
+                        </div>
+                    </div>
+
+                    <div class="details-divider"></div>
+
+                    <div class="details-section-heading">
+                        <span class="details-section-number">02</span>
+                        <h3>АБОНЕМЕНТ</h3>
+                    </div>
+
+                    @if (Model.MembershipPlan is not null)
+                    {
+                        <div class="details-plan-card">
+                            <div>
+                                <span class="details-overline">
+                                    ТЕКУЩИЙ ТАРИФ
+                                </span>
+
+                                <h4>
+                                    @Model.MembershipPlan.Name.ToUpperInvariant()
+                                </h4>
+
+                                <p>
+                                    Срок действия:
+                                    @Model.MembershipPlan.DurationMonths мес.
+                                </p>
+                            </div>
+
+                            <div class="details-plan-price">
+                                @Model.MembershipPlan.Price.ToString("0.##")
+                                <span>BYN</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="details-muted">
+                            Абонемент не назначен.
+                        </p>
+                    }
+
+                    <div class="details-divider"></div>
+
+                    <div class="details-section-heading">
+                        <span class="details-section-number">03</span>
+                        <h3>ПЕРСОНАЛЬНЫЙ ТРЕНЕР</h3>
+                    </div>
+
+                    @if (Model.Trainer is not null)
+                    {
+                        <div class="details-trainer">
+                            <div class="details-trainer-avatar">
+                                @Model.Trainer.Name.Substring(0, 1).ToUpperInvariant()
+                            </div>
+
+                            <div class="details-trainer-info">
+                                <strong>@Model.Trainer.Name</strong>
+                                <span>@Model.Trainer.Specialization</span>
+                                <span>Опыт: @Model.Trainer.ExperienceYears лет</span>
+                            </div>
+
+                            <span class="details-trainer-mark">FC</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="details-muted">
+                            Персональный тренер не назначен.
+                        </p>
+                    }
+
+                    <div class="details-actions">
+                        <a asp-page="./Edit"
+                           asp-route-id="@Model.Member.Id"
+                           class="btn btn-lime">
+                            Редактировать
+                        </a>
+
+                        <a asp-page="./Delete"
+                           asp-route-id="@Model.Member.Id"
+                           class="btn btn-outline-light-custom">
+                            Удалить участника
+                        </a>
+
+                        <a asp-page="./Index"
+                           class="btn btn-outline-light-custom">
+                            ← Вернуться к участникам
+                        </a>
+
+                        <a asp-page="./Create"
+                           class="btn btn-outline-light-custom">
+                            + Добавить участника
+                        </a>
+                    </div>
+                </article>
+
+                <aside class="details-side-panel">
+                    <p class="eyebrow">
+                        <span class="eyebrow-line"></span>
+                        FITNESS CLUB
+                    </p>
+
+                    <h2>
+                        ТВОЙ ПУТЬ.<br />
+                        ТВОЙ <span>РЕЗУЛЬТАТ.</span>
+                    </h2>
+
+                    <p>
+                        Регулярные тренировки, подходящий абонемент
+                        и поддержка тренера помогают двигаться к цели.
+                    </p>
+
+                    <div class="details-side-stat">
+                        <span>УЧАСТНИК</span>
+                        <strong>№ @Model.Member.Id</strong>
+                    </div>
+
+                    <div class="details-side-stat">
+                        <span>АБОНЕМЕНТ</span>
+                        <strong>
+                            @(Model.MembershipPlan?.Name ?? "Не назначен")
+                        </strong>
+                    </div>
+
+                    <div class="details-side-stat">
+                        <span>ТРЕНЕР</span>
+                        <strong>
+                            @(Model.Trainer?.Name ?? "Не назначен")
+                        </strong>
+                    </div>
+
+                    <div class="details-lime-mark">FC / 2026</div>
+                </aside>
+
+            </div>
+        }
+    </div>
+</section>

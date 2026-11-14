@@ -1,0 +1,132 @@
+
+@page
+@model wt_lab8_8razor_postgresql_talashkevich.Pages.Members.CreateModel
+
+@{
+    ViewData["Title"] = "Добавить участника";
+}
+
+<section class="create-member-page">
+    <div class="site-container create-member-layout">
+
+        <div class="create-member-intro">
+            <p class="eyebrow">
+                <span class="eyebrow-line"></span>
+                НОВЫЙ УЧАСТНИК
+            </p>
+
+            <h1>
+                ДОБАВИТЬ<br />
+                УЧАСТНИКА
+            </h1>
+
+            <p class="create-member-description">
+                Заполни форму — участник сразу появится
+                в списке клуба.
+            </p>
+
+            <div class="create-member-note">
+                <span class="note-icon">FC</span>
+                <span>Твой следующий шаг к сильной команде.</span>
+            </div>
+        </div>
+
+        <div class="create-member-card">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly"
+                     class="validation-summary"></div>
+
+                <div class="form-field">
+                    <label asp-for="Member.Name" class="form-label">
+                        ИМЯ УЧАСТНИКА
+                    </label>
+                    <input asp-for="Member.Name"
+                           class="form-control club-input"
+                           placeholder="Например, Анна Петрова"
+                           autocomplete="name" />
+                    <span asp-validation-for="Member.Name"
+                          class="field-error"></span>
+                </div>
+
+                <div class="form-field">
+                    <label asp-for="Member.Age" class="form-label">
+                        ВОЗРАСТ
+                    </label>
+                    <input asp-for="Member.Age"
+                           type="number"
+                           min="14"
+                           max="100"
+                           class="form-control club-input"
+                           placeholder="Например, 23" />
+                    <span asp-validation-for="Member.Age"
+                          class="field-error"></span>
+                </div>
+
+                <div class="form-field">
+                    <label asp-for="Member.Description" class="form-label">
+                        ОПИСАНИЕ
+                    </label>
+                    <textarea asp-for="Member.Description"
+                              class="form-control club-input"
+                              rows="4"
+                              maxlength="500"
+                              placeholder="Расскажи немного об участнике..."></textarea>
+                    <span asp-validation-for="Member.Description"
+                          class="field-error"></span>
+                </div>
+
+                <div class="form-field">
+                    <label asp-for="Member.MembershipPlanId"
+                           class="form-label">
+                        ТИП АБОНЕМЕНТА
+                    </label>
+                    <select asp-for="Member.MembershipPlanId"
+                            class="form-select club-input">
+                        <option value="0">Выберите абонемент</option>
+                        @foreach (var plan in Model.MembershipPlans)
+                        {
+                            <option value="@plan.Id">
+                                @plan.Name — @plan.Price.ToString("0.##") BYN
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="Member.MembershipPlanId"
+                          class="field-error"></span>
+                </div>
+
+                <div class="form-field">
+                    <label asp-for="Member.TrainerId" class="form-label">
+                        ТРЕНЕР
+                    </label>
+                    <select asp-for="Member.TrainerId"
+                            class="form-select club-input">
+                        <option value="0">Выберите тренера</option>
+                        @foreach (var trainer in Model.Trainers)
+                        {
+                            <option value="@trainer.Id">
+                                @trainer.Name — @trainer.Specialization
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="Member.TrainerId"
+                          class="field-error"></span>
+                </div>
+
+                <div class="create-member-actions">
+                    <button type="submit" class="btn btn-lime">
+                        Добавить участника
+                    </button>
+                    <a asp-page="./Index"
+                       class="btn btn-outline-light-custom">
+                        Отмена
+                    </a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

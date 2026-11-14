@@ -1,0 +1,79 @@
+
+@page "{id:int}"
+@model wt_lab8_8razor_postgresql_talashkevich.Pages.Members.DeleteModel
+
+@{
+    ViewData["Title"] = "Удаление участника";
+}
+
+<section class="create-member-page">
+    <div class="site-container create-member-layout">
+
+        <div class="create-member-intro">
+            <p class="eyebrow">
+                <span class="eyebrow-line"></span>
+                УПРАВЛЕНИЕ УЧАСТНИКАМИ
+            </p>
+
+            <h1>
+                УДАЛЕНИЕ<br />
+                УЧАСТНИКА
+            </h1>
+
+            <p class="create-member-description">
+                Подтверди удаление участника из базы данных клуба.
+            </p>
+
+            <div class="create-member-note">
+                <span class="note-icon">FC</span>
+                <span>Проверь данные перед подтверждением.</span>
+            </div>
+        </div>
+
+        <div class="create-member-card">
+
+            @if (Model.Member is not null)
+            {
+                <div class="form-field">
+                    <label class="form-label">ИМЯ УЧАСТНИКА</label>
+                    <p class="form-control club-input">
+                        @Model.Member.Name
+                    </p>
+                </div>
+
+                <div class="form-field">
+                    <label class="form-label">ВОЗРАСТ</label>
+                    <p class="form-control club-input">
+                        @Model.Member.Age лет
+                    </p>
+                </div>
+
+                <div class="form-field">
+                    <label class="form-label">ИДЕНТИФИКАТОР</label>
+                    <p class="form-control club-input">
+                        #@Model.Member.Id
+                    </p>
+                </div>
+
+                <div class="create-member-note">
+                    Вы действительно хотите удалить эту запись?
+                </div>
+
+                <div class="create-member-actions">
+                    <form method="post">
+                        <button type="submit" class="btn btn-lime">
+                            Подтвердить удаление
+                        </button>
+                    </form>
+
+                    <a asp-page="./Details"
+                       asp-route-id="@Model.Member.Id"
+                       class="btn btn-outline-light-custom">
+                        Отмена
+                    </a>
+                </div>
+            }
+        </div>
+
+    </div>
+</section>
