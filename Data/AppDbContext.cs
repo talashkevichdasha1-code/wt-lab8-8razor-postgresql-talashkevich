@@ -16,6 +16,9 @@ public class AppDbContext : DbContext
     public DbSet<Trainer> Trainers => Set<Trainer>();
     public DbSet<TrainingSession> TrainingSessions => Set<TrainingSession>();
 
+    // Таблица пользователей для авторизации
+    public DbSet<User> Users => Set<User>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

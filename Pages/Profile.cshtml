@@ -1,0 +1,65 @@
+
+@page
+@model wt_lab8_8razor_postgresql_talashkevich.Pages.ProfileModel
+
+@{
+    ViewData["Title"] = "Профиль";
+}
+
+<section class="profile-page">
+    <div class="profile-container">
+
+        <div class="profile-heading">
+            <div class="profile-eyebrow">
+                <span></span>
+                FITNESS CLUB
+            </div>
+
+            <h1>ЛИЧНЫЙ КАБИНЕТ</h1>
+
+            <p>
+                Ваше пространство в FITNESS CLUB.
+                Управляйте своей работой с системой клуба.
+            </p>
+        </div>
+
+        <div class="profile-card">
+
+            <div class="profile-avatar">
+                @Model.UserLogin.Substring(0, 1).ToUpper()
+            </div>
+
+            <div class="profile-status">
+                <span></span>
+                ВЫ АВТОРИЗОВАНЫ
+            </div>
+
+            <h2>Добро пожаловать!</h2>
+
+            <div class="profile-login">
+                @Model.UserLogin
+            </div>
+
+            <p class="profile-description">
+                Вы успешно вошли в систему FITNESS CLUB.
+                Теперь вам доступен личный кабинет.
+            </p>
+
+            <div class="profile-divider"></div>
+
+            <div class="profile-info">
+                <span>СТАТУС АККАУНТА</span>
+                <strong>Активен</strong>
+            </div>
+
+            <form method="post">
+                <button type="submit" class="profile-logout">
+                    ВЫЙТИ ИЗ АККАУНТА
+                    <span>→</span>
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+</section>

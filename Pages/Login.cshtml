@@ -1,0 +1,83 @@
+@page
+@model wt_lab8_8razor_postgresql_talashkevich.Pages.LoginModel
+
+@{
+    ViewData["Title"] = "Авторизация";
+}
+
+<section class="auth-page">
+    <div class="auth-container">
+
+        <div class="auth-heading">
+            <div class="auth-eyebrow">
+                <span></span>
+                FITNESS CLUB
+            </div>
+
+            <h1>С ВОЗВРАЩЕНИЕМ</h1>
+
+            <p>
+                Войдите в личный кабинет, чтобы продолжить
+                работу с системой клуба.
+            </p>
+        </div>
+
+        <div class="auth-card">
+            <div class="auth-card-heading">
+                <h2>Вход в систему</h2>
+                <p>Введите данные своей учётной записи</p>
+            </div>
+
+            <form method="post">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="auth-validation"></div>
+
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="auth-error">
+                        @Model.ErrorMessage
+                    </div>
+                }
+
+                <div class="auth-field">
+                    <label asp-for="Login">ЛОГИН</label>
+
+                    <input asp-for="Login"
+                           placeholder="Введите логин"
+                           autocomplete="username" />
+
+                    <span asp-validation-for="Login"
+                          class="auth-field-error"></span>
+                </div>
+
+                <div class="auth-field">
+                    <label asp-for="Password">ПАРОЛЬ</label>
+
+                    <input asp-for="Password"
+                           type="password"
+                           placeholder="Введите пароль"
+                           autocomplete="current-password" />
+
+                    <span asp-validation-for="Password"
+                          class="auth-field-error"></span>
+                </div>
+
+                <button type="submit" class="auth-button">
+                    ВОЙТИ В АККАУНТ
+                    <span>→</span>
+                </button>
+
+            </form>
+
+            <div class="auth-card-footer">
+                FITNESS CLUB <span>•</span> ЛИЧНЫЙ КАБИНЕТ
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
